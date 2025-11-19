@@ -1,28 +1,26 @@
 <template>
-    <lightning-card title="Performance Metrics" icon-name="utility:chart">
-        <template if:true={isLoading}>
-            <div class="slds-p-around_medium">
-                <lightning-spinner size="medium"></lightning-spinner>
+    <lightning-card title="Org Performance Metrics" icon-name="standard:performance">
+        <div class="slds-p-around_medium">
+            <div if:false={metrics.data}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
             </div>
-        </template>
-        <template if:true={error}>
-            <div class="slds-p-around_medium slds-text-color_error">
-                Error loading performance metrics: {errorMessage}
-            </div>
-        </template>
-        <template if:true={hasResults}>
-            <div class="slds-p-around_medium">
-                <lightning-datatable
-                    key-field="id"
-                    data={metrics}
-                    columns={columns}>
-                </lightning-datatable>
-            </div>
-        </template>
-        <template if:true={showNoResults}>
-            <div class="slds-p-around_medium">
-                <p>No performance data found for this period.</p>
-            </div>
-        </template>
+
+            <template if:true={metrics.data}>
+                <div style="height: 300px;">
+                    <lightning-datatable
+                        key-field="Id"
+                        data={metrics.data}
+                        columns={columns}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </div>
+            </template>
+
+            <template if:true={metrics.error}>
+                <div class="slds-text-color_error slds-p-around_small">
+                    Error retrieving data. Please check your permissions.
+                </div>
+            </template>
+        </div>
     </lightning-card>
 </template>
