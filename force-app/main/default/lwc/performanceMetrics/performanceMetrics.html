@@ -1,26 +1,25 @@
 <template>
-    <lightning-card title="Org Performance Metrics" icon-name="standard:performance">
-        <div class="slds-p-around_medium">
-            <div if:false={metrics.data}>
-                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    <lightning-card title="Performance Metrics">
+
+        <template for:each={groupedData} for:item="section">
+            <div key={section.pillar} class="slds-m-around_large">
+
+                <!-- Pillar Heading -->
+                <h2 class="slds-text-heading_medium slds-m-bottom_small">
+                    {section.pillar}
+                </h2>
+
+                <!-- Each Pillar's Table -->
+                <lightning-datatable
+                    key-field="Metric_Type__c"
+                    data={section.items}
+                    columns={columns}
+                    hide-checkbox-column>
+                </lightning-datatable>
+
+                <hr class="slds-m-vertical_large"/>
             </div>
+        </template>
 
-            <template if:true={metrics.data}>
-                <div style="height: 300px;">
-                    <lightning-datatable
-                        key-field="Id"
-                        data={metrics.data}
-                        columns={columns}
-                        hide-checkbox-column>
-                    </lightning-datatable>
-                </div>
-            </template>
-
-            <template if:true={metrics.error}>
-                <div class="slds-text-color_error slds-p-around_small">
-                    Error retrieving data. Please check your permissions.
-                </div>
-            </template>
-        </div>
     </lightning-card>
 </template>
